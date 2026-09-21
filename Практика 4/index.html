@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Counter + Лото</title>
+<link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+<div class="app">
+
+  <div class="tabs">
+    <div class="tab active" id="tabCounterBtn" onclick="showScreen('counter')">Счетчик</div>
+    <div class="tab" id="tabLotoBtn" onclick="showScreen('loto')">Лото</div>
+  </div>
+
+  <div class="card">
+
+    <!-- Экран "Счетчик" -->
+    <div class="screen active" id="screenCounter">
+      <div class="label">Счетчик</div>
+      <div class="count" id="count">0</div>
+      <div class="buttons">
+        <button class="btn-minus" onclick="decrease()">− Уменьшить</button>
+        <button class="btn-reset" onclick="reset()">Сбросить</button>
+        <button class="btn-plus" onclick="increase()">+ Увеличить</button>
+      </div>
+    </div>
+
+    <!-- Экран "Лото" -->
+    <div class="screen" id="screenLoto">
+      <h1>Лото</h1>
+      <div class="subtitle">6 случайных чисел от 01 до 99</div>
+      <div class="balls" id="balls">
+        <div class="placeholder">Нажмите кнопку, чтобы сыграть</div>
+      </div>
+      <button class="btn-play" onclick="playLoto()">Играть</button>
+    </div>
+
+  </div>
+</div>
+
+<script src="index.js">
+</script>
+
+</body>
+</html>
