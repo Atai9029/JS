@@ -1,7 +1,3 @@
-/* ══════════════════════════════════════════════
-   animations.js — анимации по событиям
-   События: scroll, mousemove / mouseleave, click, submit
-   ══════════════════════════════════════════════ */
 (() => {
   const root = document.documentElement;
   try {
@@ -9,11 +5,8 @@
   root.classList.add('anim-ready');                  // только теперь CSS прячет блоки для анимации
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ───────── СОБЫТИЕ 1: scroll ─────────
-     а) полоса прогресса прокрутки
-     б) блоки появляются, когда попадают в экран
-     в) число в рейтинге «считается» от 0 */
-
+  /* СОБЫТИЕ 1: scroll
+*/
   // а) полоса прогресса
   const bar = document.createElement('div');
   bar.id = 'scrollProgress';
@@ -82,7 +75,7 @@
     }).observe(grid, { childList: true });
   }
 
-  // в) счётчик числа (элементы с data-count)
+  // в) счётчик числа
   function countUp(el) {
     const target = parseFloat(el.dataset.count);
     const decimals = parseInt(el.dataset.decimals || '0', 10);
@@ -104,9 +97,9 @@
   document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
 
 
-  /* ───────── СОБЫТИЕ 2: mousemove / mouseleave ─────────
+  /* 2: mousemove / mouseleave
      3D-наклон карточки техники вслед за курсором + блик.
-     Делегирование: карточки создаются динамически. */
+     Делегирование:карточки создаются динамически */
   if (!reduceMotion && window.matchMedia('(hover: hover)').matches) {
     document.addEventListener('mousemove', e => {
       const card = e.target.closest('.mil-card, .review-card');
@@ -133,7 +126,7 @@
   }
 
 
-  /* ───────── СОБЫТИЕ 3: click — ripple на кнопках ───────── */
+  /* 3: click — ripple на кнопках */
   document.addEventListener('click', e => {
     const btn = e.target.closest('.btn-mil');
     if (!btn || reduceMotion) return;
@@ -149,9 +142,7 @@
   });
 
 
-  /* ───────── СОБЫТИЕ 4: click — закрытие модального окна ─────────
-     Открытие анимируется в CSS (убирается .hidden).
-     Закрытие: сначала класс .closing (анимация), потом .hidden. */
+  /*4: click — закрытие модального окна */
   const modal = document.getElementById('detail-section');
   if (modal) {
     let closing = false;
@@ -186,7 +177,7 @@
   }
 
 
-  /* ───────── СОБЫТИЕ 5: submit — форма заявки ─────────
+  /*5: submit — форма заявки
      Ошибка → поля трясутся, успех → сообщение «всплывает». */
   const form = document.getElementById('contactForm');
   if (form) {
