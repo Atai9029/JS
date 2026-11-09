@@ -1,0 +1,105 @@
+/* ══════════════════════════════════════════════
+   crud.css — панель управления, форма, подтверждение, уведомления
+   ══════════════════════════════════════════════ */
+
+/* панель над списком */
+.crud-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.crud-toolbar .form-control { flex: 1 1 260px; max-width: 420px; }
+.crud-toolbar .form-select  { flex: 0 0 230px; }
+.crud-toolbar .btn-mil { padding: .55rem 1.1rem; font-size: .85rem; letter-spacing: 1px; margin: 0; }
+.crud-toolbar .toolbar-spacer { flex: 1 1 auto; }
+.crud-count {
+  color: var(--muted);
+  font-size: .9rem;
+  letter-spacing: 1px;
+  margin-bottom: 22px;
+}
+
+/* кнопки в карточке и в окне подробностей */
+.card-actions { display: flex; gap: 8px; margin-top: 10px; }
+.card-actions .btn { flex: 1; padding: .4rem .4rem; font-size: .72rem; letter-spacing: 1px; }
+.detail-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+.detail-actions .btn { padding: .5rem 1.2rem; font-size: .8rem; }
+.detail-content .btn { margin: 4px 6px 0 0; }
+
+/* пустой список */
+.crud-empty {
+  text-align: center;
+  padding: 60px 20px;
+  border: 1px dashed var(--border);
+  color: var(--muted);
+}
+
+/* форма */
+#form-section .detail-content { max-width: 720px; }
+#form-section h2 { font-family: 'Oswald', sans-serif; letter-spacing: 2px; text-transform: uppercase; }
+#form-section .form-label { font-size: .85rem; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+#form-section .form-text { color: var(--muted); font-size: .78rem; }
+.pf-preview {
+  display: block;
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  margin-top: 10px;
+  border: 1px solid var(--border);
+}
+.pf-preview.hidden { display: none; }
+.form-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+.form-control[type="file"] { padding: .45rem .75rem; }
+
+/* окно подтверждения поверх остальных */
+#confirm-section { z-index: 2100; }
+#confirm-section .detail-content { max-width: 440px; text-align: center; }
+#confirm-section h2 { font-family: 'Oswald', sans-serif; letter-spacing: 2px; text-transform: uppercase; font-size: 1.4rem; }
+#confirm-section p { color: var(--muted); }
+
+/* уведомления */
+#toast-box {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  z-index: 3500;
+  width: max-content;
+  max-width: 92vw;
+}
+.toast-item {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: var(--dark2);
+  border: 1px solid var(--green);
+  box-shadow: 0 0 24px rgba(0, 255, 136, .25);
+  color: #fff;
+  padding: 12px 18px;
+  animation: toastIn .45s cubic-bezier(.2, 1.4, .4, 1) both;
+}
+.toast-item.error { border-color: var(--red); box-shadow: 0 0 24px rgba(224, 48, 48, .3); }
+.toast-item.out { animation: toastOut .3s ease forwards; }
+.toast-item button {
+  background: none;
+  border: 0;
+  color: var(--green);
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0;
+}
+@keyframes toastIn  { from { opacity: 0; transform: translateY(40px) scale(.9); } to { opacity: 1; transform: none; } }
+@keyframes toastOut { to   { opacity: 0; transform: translateY(20px); } }
+
+@media (max-width: 576px) {
+  .crud-toolbar .form-select { flex: 1 1 100%; }
+  .crud-toolbar .btn-mil { flex: 1 1 45%; }
+}

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Каталог | ARMED FORCES</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/catalog.css" />
+  <link rel="stylesheet" href="../css/animations.css" />
+  <link rel="stylesheet" href="../css/crud.css" />
+  <style>
+    .catalog-hero {
+      background: linear-gradient(to bottom, rgba(0,0,0,.7), var(--dark)), url('../img/Boeing C-17 Globemaster III.jpg') center/cover;
+      padding: 100px 0 60px;
+      text-align: center;
+    }
+  </style>
+  <script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="../index.html">ARMED<span> FORCES</span></a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+      <i class="bi bi-list fs-2" style="color:var(--green)"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav ms-auto gap-lg-3">
+        <li class="nav-item"><a class="nav-link" href="../index.html">Главная</a></li>
+        <li class="nav-item"><a class="nav-link active" href="katalog.html">Каталог</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">О нас</a></li>
+        <li class="nav-item"><a class="nav-link" href="kontakt.html">Контакты</a></li>
+      </ul>
+        <ul id="navAuthArea" class="navbar-nav"></ul>
+    </div>
+  </div>
+</nav>
+
+<div class="catalog-hero">
+  <div class="sec-label">// каталог</div>
+  <h1 class="sec-title">Весь транспорт</h1>
+</div>
+
+<section class="py-5">
+  <div class="container py-3">
+    <!-- панель управления: поиск, сортировка и CRUD-кнопки -->
+    <div class="crud-toolbar">
+      <input type="search" id="search-input" class="form-control" placeholder="Поиск по каталогу..." aria-label="Поиск">
+      <select id="sort-select" class="form-select" aria-label="Сортировка">
+        <option value="id">Порядок добавления</option>
+        <option value="name">По названию (А–Я)</option>
+        <option value="price-asc">Цена: по возрастанию</option>
+        <option value="price-desc">Цена: по убыванию</option>
+      </select>
+      <span class="toolbar-spacer"></span>
+      <button type="button" id="add-btn" class="btn btn-mil"><i class="bi bi-plus-lg me-1"></i>Добавить</button>
+      <button type="button" id="export-btn" class="btn btn-mil" title="Скачать актуальный data.json"><i class="bi bi-download me-1"></i>Экспорт</button>
+      <label class="btn btn-mil mb-0" title="Загрузить data.json"><i class="bi bi-upload me-1"></i>Импорт
+        <input type="file" id="import-file" accept=".json,application/json" hidden>
+      </label>
+      <button type="button" id="reset-btn" class="btn btn-mil btn-mil-red" title="Вернуть исходный data.json"><i class="bi bi-arrow-counterclockwise me-1"></i>Сбросить</button>
+    </div>
+    <div class="crud-count"><span id="result-count"></span> &nbsp;·&nbsp; <span id="source-info"></span></div>
+
+    <div class="row g-4" id="product-grid" data-admin></div>
+  </div>
+</section>
+
+<footer class="py-4">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4"><div class="footer-brand">ARMED<span> FORCES</span></div></div>
+      <div class="col-md-4">
+        <div class="footer-heading">// Карта сайта</div>
+        <ul class="sitemap">
+          <li><a href="../index.html">Главная</a></li>
+          <li><a href="katalog.html">Каталог</a></li>
+          <li><a href="about.html">О нас</a></li>
+          <li><a href="kontakt.html">Контакты</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <div class="footer-heading">// Контакты</div>
+        <ul class="sitemap">
+          <li>Токмок, Кыргызстан</li>
+          <li><a href="mailto:makhmutov_a@iuca.kg">makhmutov_a@iuca.kg</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr style="border-color:var(--border)">
+    <p class="text-center mb-0" style="font-size:.8rem;color:var(--muted)">&copy; 2024 ARMED FORCES</p>
+  </div>
+</footer>
+
+<section id="detail-section" class="detail-modal hidden">
+  <div class="detail-content">
+    <span id="close-btn" class="close-btn">&times;</span>
+    <div id="detail-card"></div>
+  </div>
+</section>
+
+
+<!-- Форма: добавить / изменить -->
+<section id="form-section" class="detail-modal hidden">
+  <div class="detail-content">
+    <span id="form-close" class="close-btn">&times;</span>
+    <h2 id="form-title">Добавить технику</h2>
+    <form id="product-form" novalidate>
+      <div class="row g-3">
+        <div class="col-md-8">
+          <label class="form-label req" for="pf-name">Название</label>
+          <input type="text" id="pf-name" class="form-control" placeholder="Например: БТР-82А" required minlength="2" maxlength="60">
+          <div class="invalid-feedback">Название от 2 до 60 символов.</div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label req" for="pf-price">Цена, $</label>
+          <input type="number" id="pf-price" class="form-control" placeholder="1000000" required min="1" max="1000000000" step="1">
+          <div class="invalid-feedback">Цена от 1 до 1 000 000 000.</div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label req" for="pf-year">Год выпуска</label>
+          <input type="number" id="pf-year" class="form-control" placeholder="2020" required min="1900" max="2100" step="1">
+          <div class="invalid-feedback">Год от 1900 до 2100.</div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label req" for="pf-engine">Двигатель</label>
+          <input type="text" id="pf-engine" class="form-control" placeholder="Дизель, турбины..." list="engine-list" required maxlength="30">
+          <datalist id="engine-list"><option value="Автомат"><option value="Механика"><option value="Реактивный"><option value="Турбовинтовой"><option value="Винт"></datalist>
+          <div class="invalid-feedback">Укажите двигатель.</div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label req" for="pf-fuel">Топливо</label>
+          <input type="text" id="pf-fuel" class="form-control" placeholder="Дизель" list="fuel-list" required maxlength="30">
+          <datalist id="fuel-list"><option value="Дизель"><option value="Керосин"><option value="Бензин"><option value="Суд. дизель"></datalist>
+          <div class="invalid-feedback">Укажите топливо.</div>
+        </div>
+        <div class="col-12">
+          <label class="form-label" for="pf-class">Класс</label>
+          <input type="text" id="pf-class" class="form-control" placeholder="Бронеавтомобиль, вертолёт, танк..." maxlength="60">
+        </div>
+        <div class="col-12">
+          <label class="form-label req" for="pf-description">Описание</label>
+          <textarea id="pf-description" class="form-control" rows="3" placeholder="Коротко о технике..." required minlength="10" maxlength="600"></textarea>
+          <div class="invalid-feedback">Описание от 10 до 600 символов.</div>
+        </div>
+        <div class="col-12">
+          <label class="form-label" for="pf-specs">Другие характеристики</label>
+          <textarea id="pf-specs" class="form-control" rows="3" placeholder="Экипаж: 3 человека&#10;Скорость: 60 км/ч"></textarea>
+          <div class="form-text">Каждая характеристика с новой строки в виде «Ключ: значение».</div>
+          <div class="invalid-feedback" id="pf-specs-error">Каждая строка: «Ключ: значение».</div>
+        </div>
+        <div class="col-12">
+          <label class="form-label req" for="pf-file">Фото</label>
+          <input type="file" id="pf-file" class="form-control" accept="image/*">
+          <div class="form-text">Загрузите файл или укажите путь / ссылку ниже (например, A_T/T-34.jpg).</div>
+          <input type="text" id="pf-image-url" class="form-control mt-2" placeholder="Путь или ссылка на картинку">
+          <div class="invalid-feedback">Добавьте фото или укажите путь к нему.</div>
+          <img id="pf-preview" class="pf-preview hidden" alt="Предпросмотр">
+        </div>
+        <div class="col-12 d-flex gap-4 flex-wrap">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="pf-top">
+            <label class="form-check-label" for="pf-top" style="color:var(--muted)">Пометить «ТОП»</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="pf-featured">
+            <label class="form-check-label" for="pf-featured" style="color:var(--muted)">Показывать на главной</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" id="form-submit" class="btn btn-mil px-4">Добавить</button>
+        <button type="button" id="form-cancel" class="btn btn-mil btn-mil-red px-4">Отмена</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- Подтверждение (удаление, импорт, сброс) -->
+<section id="confirm-section" class="detail-modal hidden">
+  <div class="detail-content">
+    <h2 id="confirm-title">Подтвердите действие</h2>
+    <p id="confirm-text"></p>
+    <button type="button" id="confirm-yes" class="btn btn-mil btn-mil-red">Да</button>
+    <button type="button" id="confirm-no" class="btn btn-mil">Отмена</button>
+  </div>
+</section>
+
+<script src="../JS/auth.js"></script>
+<script src="../JS/store.js"></script>
+<script src="../JS/catalog.js"></script>
+<script>document.addEventListener("DOMContentLoaded",async()=>{await initDB();updateNavAuth();});</script>
+<script src="../JS/animations.js"></script>
+</body>
+</html>
